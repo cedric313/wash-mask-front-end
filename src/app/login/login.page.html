@@ -1,0 +1,40 @@
+<ion-content>
+  <div *ngIf="isAccountExist" style="display: flex; align-items: center; align-content: center; justify-content: center;
+   flex-direction: column; margin-top: 50%;--ion-background-color: transparent ">
+ <ion-list>
+   <ion-item>
+     <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+     <ion-input placeholder="Email" [(ngModel)]="user.email" type="text"></ion-input>
+   </ion-item>
+   <ion-item>
+     <ion-label> <ion-icon name="lock-open-outline"></ion-icon> </ion-label>
+     <ion-input placeholder="Password" [(ngModel)]="user.password" type="password"></ion-input>
+   </ion-item>
+   <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+      <ion-button color="success" shape="round" (click)="signIn()">Sign in</ion-button>
+       <a (click)="isAccountExist = !isAccountExist">Create Account</a>
+   </div>
+ </ion-list>
+  </div>
+    <div *ngIf="!isAccountExist" style="display: flex; align-items: center; align-content: center; justify-content: center;
+   flex-direction: column; margin-top: 50%;--ion-background-color: transparent ">
+        <ion-list>
+            <ion-item>
+                <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+                <ion-input placeholder="Email" [(ngModel)]="user.email" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label> <ion-icon name="lock-open-outline"></ion-icon> </ion-label>
+                <ion-input placeholder="Password" [(ngModel)]="user.password" type="password"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label> <ion-icon name="body-outline"></ion-icon> </ion-label>
+                <ion-input placeholder="Pseudo" [(ngModel)]="user.pseudo" type="text"></ion-input>
+            </ion-item>
+            <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+                <ion-button color="success" shape="round" (click)="createAccount()">Create Account</ion-button>
+                <a (click)="isAccountExist = !isAccountExist">Sign In</a>
+            </div>
+        </ion-list>
+    </div>
+</ion-content>
