@@ -11,10 +11,7 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'welcome',
-    loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
-  },
+
   {
     path: 'family',
     loadChildren: () => import('./family/family.module').then( m => m.FamilyPageModule)
@@ -22,6 +19,10 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'mask',
+    loadChildren: () => import('./mask/mask.module').then( m => m.MaskPageModule)
   },
 ];
 

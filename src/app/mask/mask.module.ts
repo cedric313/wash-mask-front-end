@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { WelcomePageRoutingModule } from './welcome-routing.module';
+import { MaskPageRoutingModule } from './mask-routing.module';
 
-import { WelcomePage } from './welcome.page';
+import { MaskPage } from './mask.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    WelcomePageRoutingModule
+    MaskPageRoutingModule
   ],
-  declarations: [WelcomePage]
+  declarations: [MaskPage]
 })
-export class WelcomePageModule {}
+export class MaskPageModule {}
