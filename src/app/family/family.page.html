@@ -11,6 +11,16 @@
 </ion-header>
 
 <ion-content>
+  <ion-list *ngFor="let family of familyMemberfromDb.familyMembers; let i = index">
+    <ion-card [button]="true" (click)="goMask(family.id)">
+      <ion-card-header>
+        <ion-card-title>{{family.firstName}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Vous avez
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
   <ion-list>
     <ion-item>
       <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
@@ -20,9 +30,5 @@
       <ion-button color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
     </div>
   </ion-list>
-  <ion-list *ngFor="let family of familymemberfromDb">
-      <div>
-        {{family['firstName']}}
-      </div>
-  </ion-list>
+
 </ion-content>

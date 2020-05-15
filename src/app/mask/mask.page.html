@@ -6,9 +6,38 @@
               [icon]="buttonIcon">
       </ion-back-button>
     </ion-buttons>
+    <ion-title>Make mask for member</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list *ngFor="let mask of masksOfMember; let i = index">
+    <ion-card >
+      <ion-card-header>
+        <ion-card-title>{{mask.name}} : lavages max {{mask.maxWashingMask}} </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Vous avez fait {{mask.numberWash}} lavages.
+      </ion-card-content>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <ion-button color="success" [disabled]="isSubmit" (click)="addWashToMask(mask.id)">+1 lavage</ion-button>
+        <ion-button color="danger" [disabled]="isSubmit" (click)="sousWashToMask(mask.id)">-1 lavage</ion-button>
+      </div>
+    </ion-card>
+
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+      <ion-input placeholder="First name" [(ngModel)]="mask.name"  type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+      <ion-input placeholder="Number max of washing" [(ngModel)]="mask.maxWashingMask"  type="number"></ion-input>
+    </ion-item>
+    <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+      <ion-button color="success" shape="round" (click)="createMask()">Create mask</ion-button>
+    </div>
+  </ion-list>
 
 </ion-content>
