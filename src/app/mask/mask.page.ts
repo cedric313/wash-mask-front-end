@@ -21,7 +21,6 @@ export class MaskPage implements OnInit {
 
   ngOnInit() {
     this.idMemberFamily = this.maskService.idMemberFamilyToCreateMask;
-    console.log(this.idMemberFamily);
     this.getMaskOfMember();
   }
 
@@ -34,7 +33,11 @@ export class MaskPage implements OnInit {
     const subscription = this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
         value => {console.log(value)},
         error => {},
-        () => {this.getMaskOfMember(), subscription.unsubscribe()}
+        () => {this.getMaskOfMember(),
+            this.isWantCreateMask = false,
+            this.mask.name = "",
+            this.mask.maxWashingMask = null,
+            subscription.unsubscribe()}
     );
   }
 
@@ -42,7 +45,7 @@ export class MaskPage implements OnInit {
     const subscription  = this.maskService.findMaskByMember(this.idMemberFamily).subscribe(
         value => {this.masksOfMember = value},
         error => {},
-        () => {console.log('finit masques members'), subscription.unsubscribe()});
+        () => {subscription.unsubscribe()});
 
   }
 
@@ -66,7 +69,7 @@ export class MaskPage implements OnInit {
     const subscription = this.maskService.deleteMask(idMask).subscribe(
         response => {console.log(response)},
         error => {console.log(error)},
-        () => {console.log('finished'),this.getMaskOfMember(),subscription.unsubscribe()}
+        () => {this.getMaskOfMember(),subscription.unsubscribe()}
     );
 
   }

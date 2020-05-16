@@ -28,4 +28,8 @@ export class FamilymembersService {
     });
     return this.httpClient.post(this.urlBack + "user/" + this.userService.user.id + "/" + "family_members",member, {headers});
   }
+
+  findFamilyMembers(){
+    return this.httpClient.get(this.urlBack + "user/" + this.userService.user.id);
+  }
 }

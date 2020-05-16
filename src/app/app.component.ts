@@ -25,7 +25,7 @@ export class AppComponent{
           },
           {
             title : "My Account",
-            url   : "account",
+            url   : "my-account",
             icon  : "person-circle-outline"
           },
           {

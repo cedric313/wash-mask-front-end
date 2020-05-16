@@ -8,3 +8,24 @@
         </ion-title>
     </ion-toolbar>
 </ion-header>
+<ion-content>
+        <ion-list *ngFor="let family of familyMemberfromDb.familyMembers; let i = index">
+            <ion-card [button]="true" (click)="goMask(family.id)">
+                <ion-card-header>
+                    <ion-card-title>{{family.firstName}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    Vous avez
+                </ion-card-content>
+            </ion-card>
+        </ion-list>
+        <ion-list>
+            <ion-item>
+                <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+                <ion-input placeholder="First name" [(ngModel)]="member.firstName"  type="text"></ion-input>
+            </ion-item>
+            <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+                <ion-button color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
+            </div>
+        </ion-list>
+</ion-content>

@@ -24,6 +24,10 @@ const routes: Routes = [
     path: 'mask',
     loadChildren: () => import('./mask/mask.module').then( m => m.MaskPageModule)
   },
+  {
+    path: 'my-account',
+    loadChildren: () => import('./my-account/my-account.module').then( m => m.MyAccountPageModule)
+  },
 ];
 
 @NgModule({

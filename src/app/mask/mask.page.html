@@ -9,13 +9,25 @@
     <ion-title>Make mask for member</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="wantCreateMask()" color="success">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  <ion-card *ngIf="isWantCreateMask">
+    <ion-item>
+      <ion-label> <ion-icon name="medkit"></ion-icon> </ion-label>
+      <ion-input placeholder="Nom du masque" [(ngModel)]="mask.name"  type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> <ion-icon name="repeat"></ion-icon> </ion-label>
+      <ion-input placeholder="Nombre max de lavage" [(ngModel)]="mask.maxWashingMask"  type="number"></ion-input>
+    </ion-item>
+    <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+      <ion-button color="success" shape="round" (click)="createMask()">Create mask</ion-button>
+    </div>
+  </ion-card>
   <ion-list *ngFor="let mask of masksOfMember; let i = index" [ngStyle]="{'filter':isWantCreateMask === true ? 'blur(4px)' : 'blur(0px)' }">
     <ion-card >
       <ion-card-header>
@@ -33,19 +45,4 @@
       </div>
     </ion-card>
   </ion-list>
-  <ion-card *ngIf="isWantCreateMask">
-  <ion-list>
-    <ion-item>
-      <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-      <ion-input placeholder="First name" [(ngModel)]="mask.name"  type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-      <ion-input placeholder="Number max of washing" [(ngModel)]="mask.maxWashingMask"  type="number"></ion-input>
-    </ion-item>
-    <div style="display: flex; align-items: center; align-content: center; justify-content: center">
-      <ion-button color="success" shape="round" (click)="createMask()">Create mask</ion-button>
-    </div>
-  </ion-list>
-  </ion-card>
 </ion-content>

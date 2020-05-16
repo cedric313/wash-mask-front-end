@@ -27,10 +27,10 @@ export class FamilyPage implements OnInit {
   }
 
   createFamilyMember(){
-    this.familymembersService.createFamilyMember(this.member).subscribe(
+    const subscription = this.familymembersService.createFamilyMember(this.member).subscribe(
         value => this.userService.user.familyMembers.push(value),
             error => {},
-        () => {this.member.firstName = ""});
+        () => {this.member.firstName = "", subscription.unsubscribe()});
   }
 
   goMask(index) {
@@ -39,4 +39,5 @@ export class FamilyPage implements OnInit {
     console.log(this.maskService.idMemberFamilyToCreateMask);
     this.router.navigateByUrl('mask');
   }
+
 }

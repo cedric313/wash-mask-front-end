@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../services/user.service';
+import {FamilyMembers} from '../FamilyMembers';
+import {FamilymembersService} from '../services/familymembers.service';
+import {MaskService} from '../services/mask.service';
 
 
 @Component({
@@ -12,13 +15,35 @@ export class HomePage implements OnInit{
   user = {};
 
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private userService: UserService,
+              private familymembersService: FamilymembersService,
+              private maskService: MaskService,
+              private router: Router) {
 
   }
 
   ngOnInit(): void {
     this.user = this.userService.user;
+    console.log(this.userService.user.familyMembers);
+    this.familyMemberfromDb = this.userService.user;
+  }
 
+  member: FamilyMembers = new FamilyMembers();
+  familyMemberfromDb: any;
+
+
+  createFamilyMember(){
+   const subscription = this.familymembersService.createFamilyMember(this.member).subscribe(
+        value => this.userService.user.familyMembers.push(value),
+        error => {},
+        () => {this.member.firstName = "", subscription.unsubscribe()});
+  }
+
+  goMask(index) {
+    this.maskService.idMemberFamilyToCreateMask = index;
+    console.log(index);
+    console.log(this.maskService.idMemberFamilyToCreateMask);
+    this.router.navigateByUrl('mask');
   }
 
 }
