@@ -15,6 +15,7 @@ export class MaskPage implements OnInit {
   idMemberFamily: any = -1;
   mask: Mask = new Mask();
   masksOfMember = [];
+  isWantCreateMask: any = false;
 
   constructor(private maskService: MaskService) { }
 
@@ -24,34 +25,49 @@ export class MaskPage implements OnInit {
     this.getMaskOfMember();
   }
 
+  wantCreateMask(){
+    this.isWantCreateMask = !this.isWantCreateMask;
+  }
+
 
   createMask() {
-    this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
+    const subscription = this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
         value => {console.log(value)},
         error => {},
-        () => {console.log('finish')}
+        () => {this.getMaskOfMember(), subscription.unsubscribe()}
     );
   }
 
   getMaskOfMember(){
-    this.maskService.findMaskByMember(this.idMemberFamily).subscribe(value => {this.masksOfMember = value},
+    const subscription  = this.maskService.findMaskByMember(this.idMemberFamily).subscribe(
+        value => {this.masksOfMember = value},
         error => {},
-        () => {console.log('finit masques members')});
+        () => {console.log('finit masques members'), subscription.unsubscribe()});
+
   }
 
   addWashToMask(idMask) {
-    this.maskService.addWashToMask(idMask).subscribe(
+    const subscription = this.maskService.addWashToMask(idMask).subscribe(
         value => {this.isSubmit = true},
         error => {},
-        () => {this.getMaskOfMember(), this.isSubmit = false}
+        () => {this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
     );
   }
 
   sousWashToMask(idMask) {
-    this.maskService.sousWashToMask(idMask).subscribe(
+    const subscription = this.maskService.sousWashToMask(idMask).subscribe(
         value => {this.isSubmit = true},
         error => {},
-        () => {this.getMaskOfMember(), this.isSubmit = false}
+        () => {this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
     );
+  }
+
+  deleteMask(idMask) {
+    const subscription = this.maskService.deleteMask(idMask).subscribe(
+        response => {console.log(response)},
+        error => {console.log(error)},
+        () => {console.log('finished'),this.getMaskOfMember(),subscription.unsubscribe()}
+    );
+
   }
 }

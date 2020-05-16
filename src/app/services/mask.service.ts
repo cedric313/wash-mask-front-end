@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserService} from './user.service';
-import {FamilyMembers} from '../FamilyMembers';
 import {Observable} from 'rxjs';
 import {Mask} from '../Mask';
 
@@ -49,6 +48,13 @@ export class MaskService {
       'Content-Type':  'application/json',
     });
     return this.httpClient.put(this.urlBack + "mask/" + id + "/" + "diswash",{} , {headers});
+  }
+
+  deleteMask(id: number): Observable<any>{
+    let headers = new HttpHeaders({
+      'Content-Type':  'application/json',
+    });
+    return this.httpClient.delete(this.urlBack + "mask/" + id,{responseType: 'text'});
   }
 
 
