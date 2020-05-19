@@ -1,5 +1,7 @@
 {
   "name": "newMask",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

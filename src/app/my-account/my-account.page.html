@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+              [text]="buttonText"
+              [icon]="buttonIcon">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>My account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <div>Pseudo: {{userFromDb.pseudo}}</div>
+      <div>Email: {{userFromDb.email}} </div>
+      <div>Membres de votre famille</div>
+      <ion-list *ngFor="let memberFamily of familyMembersFromDb">
+      <ion-item>{{memberFamily.firstName}}</ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
