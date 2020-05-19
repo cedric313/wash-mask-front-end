@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MaskService} from '../services/mask.service';
 import {Mask} from '../Mask';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-mask',
@@ -10,14 +11,15 @@ import {Mask} from '../Mask';
 export class MaskPage implements OnInit {
 
   isSubmit: boolean = false;
-  buttonText: any = "Back";
+  buttonText: any = " Back";
   buttonIcon: any = "arrow-back";
   idMemberFamily: any = -1;
   mask: Mask = new Mask();
   masksOfMember = [];
   isWantCreateMask: any = false;
 
-  constructor(private maskService: MaskService) { }
+  constructor(private maskService: MaskService,
+              private alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.idMemberFamily = this.maskService.idMemberFamilyToCreateMask;
@@ -32,7 +34,9 @@ export class MaskPage implements OnInit {
   createMask() {
     const subscription = this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
         value => {console.log(value)},
-        error => {},
+        error => {
+          console.log(error)
+        },
         () => {this.getMaskOfMember(),
             this.isWantCreateMask = false,
             this.mask.name = "",
@@ -71,6 +75,30 @@ export class MaskPage implements OnInit {
         error => {console.log(error)},
         () => {this.getMaskOfMember(),subscription.unsubscribe()}
     );
+  }
 
+
+  async showAlertDeletedMask(idMask) {
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete mask',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Okay',
+          handler: () => {
+            {this.deleteMask(idMask), console.log("confirm user")};
+          }
+        }
+      ]
+    });
+    await confirm.present();
   }
 }

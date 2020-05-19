@@ -9,12 +9,14 @@
     <ion-title>Make mask for member</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button (click)="wantCreateMask()" color="success">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button style="width: 33px; height: 33px" (click)="wantCreateMask()" color="success">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
   <ion-card *ngIf="isWantCreateMask">
     <ion-item>
       <ion-label> <ion-icon name="medkit"></ion-icon> </ion-label>
@@ -28,18 +30,19 @@
       <ion-button color="success" shape="round" (click)="createMask()">Create mask</ion-button>
     </div>
   </ion-card>
-  <ion-list *ngFor="let mask of masksOfMember; let i = index" [ngStyle]="{'filter':isWantCreateMask === true ? 'blur(4px)' : 'blur(0px)' }">
-    <ion-card >
+  <ion-list *ngFor="let mask of masksOfMember; let i = index"
+            [ngStyle]="{'filter':isWantCreateMask === true ? 'blur(4px)' : 'blur(0px)' }">
+    <ion-card>
       <ion-card-header>
         <div style="display: flex; justify-content: flex-end" >
-          <ion-button (click)="deleteMask(mask.id)" style="font-size: 10px" color="danger"><ion-icon  style="font-size: 20px" name="trash"></ion-icon> </ion-button>
+          <ion-button (click)="showAlertDeletedMask(mask.id)" style="font-size: 10px" color="danger"><ion-icon  style="font-size: 20px" name="trash"></ion-icon></ion-button>
         </div>
         <ion-card-title>{{mask.name}} : lavages max {{mask.maxWashingMask}} </ion-card-title>
       </ion-card-header>
       <ion-card-content>
         Vous avez fait {{mask.numberWash}} lavages.
       </ion-card-content>
-      <div style="display: flex; flex-direction: row; justify-content: space-between">
+      <div style="display: flex; flex-direction: row; justify-content: center">
         <ion-button color="success" [disabled]="isSubmit" (click)="addWashToMask(mask.id)">+1 lavage</ion-button>
         <ion-button color="danger" [disabled]="isSubmit" (click)="sousWashToMask(mask.id)">-1 lavage</ion-button>
       </div>

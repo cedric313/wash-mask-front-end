@@ -16,7 +16,17 @@ export class UserService {
     password:"",
     pseudo:"",
     familyMembers: [
-      {}
+      {
+        firstName:"",
+        masks: [
+          {
+            name:"",
+            numberWash: "",
+            maxWashingMask:"",
+            isOver:""
+          }
+        ]
+      }
     ],
   };
 

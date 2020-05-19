@@ -6,28 +6,39 @@
               [icon]="buttonIcon">
       </ion-back-button>
     </ion-buttons>
-    <ion-title>Our Family</ion-title>
+    <ion-title size="medium">Our Family</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngFor="let family of familyMemberfromDb.familyMembers; let i = index">
-    <ion-card [button]="true" (click)="goMask(family.id)">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button style="width: 33px; height: 33px" (click)="wantCreateMemberFamily()" color="success">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-card *ngIf="isWantCreateMemberFamily">
+    <ion-item>
+        <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
+        <ion-input placeholder="First name" [(ngModel)]="member.firstName"  type="text"></ion-input>
+    </ion-item>
+      <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+        <ion-button color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
+      </div>
+  </ion-card>
+
+  <ion-list [ngStyle]="{'filter':isWantCreateMemberFamily === true ? 'blur(4px)' : 'blur(0px)' }"
+            *ngFor="let family of familyMembersFromDb; let i = index"
+            >
+    <ion-card>
       <ion-card-header>
-        <ion-card-title>{{family.firstName}} bla</ion-card-title>
+        <div style="display: flex; justify-content: flex-end" >
+          <ion-button (click)="showAlertDeletedMember(family.id)" style="font-size: 10px" color="danger"><ion-icon style="font-size: 20px" name="trash"></ion-icon> </ion-button>
+        </div>
       </ion-card-header>
-      <ion-card-content>
-        Vous avez
+      <ion-card-content (click)="goMask(family.id)">
+        <ion-card-title>{{family.firstName}}</ion-card-title>
       </ion-card-content>
     </ion-card>
-  </ion-list>
-  <ion-list>
-    <ion-item>
-      <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-      <ion-input placeholder="First name" [(ngModel)]="member.firstName"  type="text"></ion-input>
-    </ion-item>
-    <div style="display: flex; align-items: center; align-content: center; justify-content: center">
-      <ion-button color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
-    </div>
   </ion-list>
 </ion-content>

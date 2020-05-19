@@ -32,4 +32,8 @@ export class FamilymembersService {
   findFamilyMembers(){
     return this.httpClient.get(this.urlBack + "user/" + this.userService.user.id);
   }
+
+  deleteMember(id: number): Observable<any>{
+    return this.httpClient.delete(this.urlBack + "family_members/" + id,{responseType: 'text'});
+  }
 }

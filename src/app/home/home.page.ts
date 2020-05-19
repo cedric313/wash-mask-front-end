@@ -13,7 +13,8 @@ import {MaskService} from '../services/mask.service';
 })
 export class HomePage implements OnInit{
   user = {};
-
+  member: FamilyMembers = new FamilyMembers();
+  familyMemberfromDb: any;
 
   constructor(private userService: UserService,
               private familymembersService: FamilymembersService,
@@ -28,16 +29,6 @@ export class HomePage implements OnInit{
     this.familyMemberfromDb = this.userService.user;
   }
 
-  member: FamilyMembers = new FamilyMembers();
-  familyMemberfromDb: any;
-
-
-  createFamilyMember(){
-   const subscription = this.familymembersService.createFamilyMember(this.member).subscribe(
-        value => this.userService.user.familyMembers.push(value),
-        error => {},
-        () => {this.member.firstName = "", subscription.unsubscribe()});
-  }
 
   goMask(index) {
     this.maskService.idMemberFamilyToCreateMask = index;
@@ -45,5 +36,4 @@ export class HomePage implements OnInit{
     console.log(this.maskService.idMemberFamilyToCreateMask);
     this.router.navigateByUrl('mask');
   }
-
 }

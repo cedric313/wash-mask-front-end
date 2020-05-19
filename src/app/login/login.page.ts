@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {User} from '../User';
 import {UserService} from '../services/user.service';
+import {LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ export class LoginPage implements OnInit {
     user: User = new User("","");
     isAccountExist: boolean = true;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router,
+              private userService: UserService,
+              private loadingController: LoadingController) { }
 
   ngOnInit() {
 
@@ -23,9 +26,11 @@ export class LoginPage implements OnInit {
         userToSignIn.password = this.user.password;
         console.log(userToSignIn);
         this.userService.signIn(userToSignIn).subscribe(
-            value => this.userService.user = value,
+            value => {this.userService.user = value},
             error => {console.log(error)},
-            () => {this.checkIfIsConnected(this.userService.user.id) , console.log(this.userService.user), this.router.navigateByUrl('home')});
+            () => {this.checkIfIsConnected(this.userService.user.id) ,
+                console.log(this.userService.user),
+                this.router.navigateByUrl('home')});
     }
 
   createAccount() {
@@ -46,4 +51,5 @@ export class LoginPage implements OnInit {
           return console.log("connection failed");
       }
   }
+
 }
