@@ -5,6 +5,7 @@ import {UserService} from '../services/user.service';
 import {Router} from '@angular/router';
 import {MaskService} from '../services/mask.service';
 import {AlertController} from '@ionic/angular';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-family',
@@ -18,12 +19,19 @@ export class FamilyPage implements OnInit {
   buttonIcon: any = "arrow-back";
   familyMembersFromDb: any;
   isWantCreateMemberFamily = false;
+  familyMembersCreateValidator: any;
 
   constructor(private familymembersService: FamilymembersService,
               private userService: UserService,
               private maskService: MaskService,
               private router: Router,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private formBuilder: FormBuilder ) {
+    {
+      this.familyMembersCreateValidator = this.formBuilder.group({
+        name: ['', Validators.required]
+      });}
+  }
 
   ngOnInit() {
     console.log(this.userService.user.familyMembers);

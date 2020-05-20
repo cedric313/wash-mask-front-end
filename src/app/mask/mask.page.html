@@ -18,17 +18,19 @@
   </ion-fab>
 
   <ion-card *ngIf="isWantCreateMask">
+    <form [formGroup]="createMaskValidator">
     <ion-item>
       <ion-label> <ion-icon name="medkit"></ion-icon> </ion-label>
-      <ion-input placeholder="Nom du masque" [(ngModel)]="mask.name"  type="text"></ion-input>
+      <ion-input formControlName="name" placeholder="Nom du masque" [(ngModel)]="mask.name"  type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> <ion-icon name="repeat"></ion-icon> </ion-label>
-      <ion-input placeholder="Nombre max de lavage" [(ngModel)]="mask.maxWashingMask"  type="number"></ion-input>
+      <ion-input formControlName="numberWash" placeholder="Nombre max de lavage" [(ngModel)]="mask.maxWashingMask"  type="number"></ion-input>
     </ion-item>
     <div style="display: flex; align-items: center; align-content: center; justify-content: center">
-      <ion-button color="success" shape="round" (click)="createMask()">Create mask</ion-button>
+      <ion-button [disabled]="!createMaskValidator.valid" color="success" shape="round" (click)="createMask()">Create mask</ion-button>
     </div>
+    </form>
   </ion-card>
   <ion-list *ngFor="let mask of masksOfMember; let i = index"
             [ngStyle]="{'filter':isWantCreateMask === true ? 'blur(4px)' : 'blur(0px)' }">
@@ -44,7 +46,7 @@
       </ion-card-content>
       <div style="display: flex; flex-direction: row; justify-content: center">
         <ion-button color="success" [disabled]="isSubmit" (click)="addWashToMask(mask.id)">+1 lavage</ion-button>
-        <ion-button color="danger" [disabled]="isSubmit" (click)="sousWashToMask(mask.id)">-1 lavage</ion-button>
+        <ion-button color="danger" [disabled]="isSubmit || mask.numberWash < 1" (click)="sousWashToMask(mask.id)">-1 lavage</ion-button>
       </div>
     </ion-card>
   </ion-list>

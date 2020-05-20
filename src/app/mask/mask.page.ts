@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MaskService} from '../services/mask.service';
 import {Mask} from '../Mask';
 import {AlertController} from '@ionic/angular';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-mask',
@@ -17,9 +18,15 @@ export class MaskPage implements OnInit {
   mask: Mask = new Mask();
   masksOfMember = [];
   isWantCreateMask: any = false;
+  createMaskValidator: any;
 
   constructor(private maskService: MaskService,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private formBuilder: FormBuilder) {
+    this.createMaskValidator = this.formBuilder.group({
+    name: ['', Validators.required],
+      numberWash: ['', Validators.required],
+  });}
 
   ngOnInit() {
     this.idMemberFamily = this.maskService.idMemberFamilyToCreateMask;
@@ -35,7 +42,7 @@ export class MaskPage implements OnInit {
     const subscription = this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
         value => {console.log(value)},
         error => {
-          console.log(error)
+          console.log(error.error.message)
         },
         () => {this.getMaskOfMember(),
             this.isWantCreateMask = false,
@@ -100,5 +107,9 @@ export class MaskPage implements OnInit {
       ]
     });
     await confirm.present();
+  }
+
+  logForm() {
+
   }
 }

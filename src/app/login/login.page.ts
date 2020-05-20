@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {User} from '../User';
 import {UserService} from '../services/user.service';
 import {LoadingController} from '@ionic/angular';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +13,24 @@ import {LoadingController} from '@ionic/angular';
 export class LoginPage implements OnInit {
     user: User = new User("","");
     isAccountExist: boolean = true;
+    signInValidator: any;
+    createAccountValidator: any;
 
   constructor(private router: Router,
               private userService: UserService,
-              private loadingController: LoadingController) { }
+              private loadingController: LoadingController,
+              private formBuilder: FormBuilder) {
+
+      this.signInValidator = this.formBuilder.group({
+          email: ['', Validators.required],
+          password: ['', Validators.required],
+      }),
+          this.createAccountValidator = this.formBuilder.group({
+              email: ['', Validators.required],
+              password: ['', Validators.required],
+              pseudo: ['', Validators.required],
+          })
+  }
 
   ngOnInit() {
 
