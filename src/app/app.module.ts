@@ -11,14 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {FamilyPage} from './family/family.page';
 import {MaskPage} from './mask/mask.page';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [AppComponent,
   FamilyPage, MaskPage],
   entryComponents: [FamilyPage, MaskPage],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   providers: [
     StatusBar,
     SplashScreen,

@@ -18,13 +18,15 @@
   </ion-fab>
 
   <ion-card *ngIf="isWantCreateMemberFamily">
+    <form [formGroup]="familyMembersCreateValidator">
     <ion-item>
         <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-        <ion-input placeholder="First name" [(ngModel)]="member.firstName"  type="text"></ion-input>
+        <ion-input formControlName="name" placeholder="First name" [(ngModel)]="member.firstName"  type="text"></ion-input>
     </ion-item>
       <div style="display: flex; align-items: center; align-content: center; justify-content: center">
-        <ion-button color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
+        <ion-button [disabled]="!familyMembersCreateValidator.valid"  color="success" shape="round" (click)="createFamilyMember()">Create member family</ion-button>
       </div>
+    </form>
   </ion-card>
 
   <ion-list [ngStyle]="{'filter':isWantCreateMemberFamily === true ? 'blur(4px)' : 'blur(0px)' }"
