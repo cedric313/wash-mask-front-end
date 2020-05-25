@@ -10,6 +10,7 @@ export class UserService {
   urlBack = "http://localhost:8082/";
   urlToCreateAccount = "user";
   urlToSigin = "user/connect";
+  urlToGetPassword = "user/forgetPassword";
   user = {
     id:"-1",
     email: "",
@@ -46,4 +47,11 @@ export class UserService {
     return this.httpClient.post(this.urlBack + this.urlToSigin,user,{headers});
   }
 
+  getForgetPassword(user: User): Observable<any>{
+    let headers = new HttpHeaders({
+      'Content-Type':  'application/json',
+    });
+    return this.httpClient.post(this.urlBack + this.urlToGetPassword,user,{headers,
+    responseType:'text'});
+  }
 }

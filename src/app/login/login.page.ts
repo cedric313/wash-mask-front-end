@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {User} from '../User';
 import {UserService} from '../services/user.service';
-import {LoadingController} from '@ionic/angular';
+import {LoadingController, ToastController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
@@ -13,13 +13,16 @@ import {FormBuilder, Validators} from '@angular/forms';
 export class LoginPage implements OnInit {
     user: User = new User("","");
     isAccountExist: boolean = true;
+    isNeedNewPassword: boolean = false;
     signInValidator: any;
     createAccountValidator: any;
+    forgetPasswordValidator: any;
 
   constructor(private router: Router,
               private userService: UserService,
               private loadingController: LoadingController,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private toastController: ToastController) {
 
       this.signInValidator = this.formBuilder.group({
           email: ['', Validators.required],
@@ -29,6 +32,9 @@ export class LoginPage implements OnInit {
               email: ['', Validators.required],
               password: ['', Validators.required],
               pseudo: ['', Validators.required],
+          }),
+          this.forgetPasswordValidator = this.formBuilder.group({
+              email: ['', Validators.required],
           })
   }
 
@@ -67,4 +73,28 @@ export class LoginPage implements OnInit {
       }
   }
 
+    onForgetPassword() {
+        this.isNeedNewPassword = !this.isNeedNewPassword;
+    }
+
+    sendPasswordForget() {
+        console.log('send password');
+        let userToGetPassword = new User();
+        userToGetPassword.email = this.user.email;
+        this.userService.getForgetPassword(userToGetPassword).subscribe(
+            value => {console.log(value)},
+            error => {console.log(error)},
+            () => {}
+        )
+        this.presentToast();
+        this.isNeedNewPassword = false;
+    }
+
+    async presentToast() {
+        const toast = await this.toastController.create({
+            message: 'Check your Mail box.',
+            duration: 2000
+        });
+        toast.present();
+    }
 }
