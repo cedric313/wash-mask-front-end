@@ -4,6 +4,7 @@ import {User} from '../User';
 import {UserService} from '../services/user.service';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
+import {AuthGuardService} from '../services/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginPage implements OnInit {
               private userService: UserService,
               private loadingController: LoadingController,
               private formBuilder: FormBuilder,
-              private toastController: ToastController) {
+              private toastController: ToastController,
+              private authGuardService: AuthGuardService) {
 
       this.signInValidator = this.formBuilder.group({
           email: ['', Validators.required],
@@ -71,7 +73,9 @@ export class LoginPage implements OnInit {
 
   checkIfIsConnected(userId){
       if(userId !== -1){
+          this.authGuardService.isAuthenticated = true;
           return console.log("connected");
+
       } else {
           return console.log("connection failed");
       }
