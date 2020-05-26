@@ -3,7 +3,6 @@ import {MaskService} from '../services/mask.service';
 import {Mask} from '../Mask';
 import {AlertController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
-import {FamilyMembers} from '../FamilyMembers';
 import {FamilymembersService} from '../services/familymembers.service';
 
 @Component({
@@ -39,10 +38,11 @@ export class MaskPage implements OnInit {
   }
 
   getFirstNameMember(){
-    this.familymembersService.getFirstName(this.idMemberFamily).subscribe(
+   const subscription = this.familymembersService.getFirstName(this.idMemberFamily).subscribe(
         value => {this.firstNameMember = value},
         error => {console.log(error)},
-        () => {console.log('complet recup firstname member')}
+        () => {console.log('complet recup firstname member'),
+            subscription.unsubscribe()}
     )
   }
 
@@ -120,9 +120,5 @@ export class MaskPage implements OnInit {
       ]
     });
     await confirm.present();
-  }
-
-  logForm() {
-
   }
 }

@@ -46,13 +46,14 @@ export class LoginPage implements OnInit {
         userToSignIn.email = this.user.email;
         userToSignIn.password = this.user.password;
         console.log(userToSignIn);
-        this.userService.signIn(userToSignIn).subscribe(
+        const subscription =  this.userService.signIn(userToSignIn).subscribe(
             value => {this.userService.user = value},
             error => {console.log(error)},
             () => {this.checkIfIsConnected(this.userService.user.id),
                 console.log(this.userService.user),
                 this.router.navigateByUrl('home'),
-            this.presentToast('Connected',1000)});
+            this.presentToast('Connected',1000),
+            subscription.unsubscribe()});
     }
 
   createAccount() {
@@ -60,11 +61,12 @@ export class LoginPage implements OnInit {
     userToLog.email = this.user.email;
     userToLog.password = this.user.password;
     userToLog.pseudo = this.user.pseudo;
-      this.userService.createAccount(userToLog).subscribe(
+      const subscription = this.userService.createAccount(userToLog).subscribe(
           value => this.userService.user = value,
           error => {},
           () => {this.checkIfIsConnected(this.userService.user.id) , console.log(this.userService.user), this.router.navigateByUrl('home'),
-              this.presentToast('Account created, please check your Mail box',2000)});
+              this.presentToast('Account created, please check your Mail box',2000),
+              subscription.unsubscribe()});
   }
 
   checkIfIsConnected(userId){
@@ -84,11 +86,12 @@ export class LoginPage implements OnInit {
         console.log('send password');
         let userToGetPassword = new User();
         userToGetPassword.email = this.user.email;
-        this.userService.getForgetPassword(userToGetPassword).subscribe(
+        const subscription = this.userService.getForgetPassword(userToGetPassword).subscribe(
             value => {console.log(value),messageToast = value},
             error => {console.log(error)},
             () => {this.presentToast(messageToast,2000),
-                this.isNeedNewPassword = false}
+                this.isNeedNewPassword = false,
+                subscription.unsubscribe()}
         )
 
     }
