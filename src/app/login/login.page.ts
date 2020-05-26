@@ -49,9 +49,10 @@ export class LoginPage implements OnInit {
         this.userService.signIn(userToSignIn).subscribe(
             value => {this.userService.user = value},
             error => {console.log(error)},
-            () => {this.checkIfIsConnected(this.userService.user.id) ,
+            () => {this.checkIfIsConnected(this.userService.user.id),
                 console.log(this.userService.user),
-                this.router.navigateByUrl('home')});
+                this.router.navigateByUrl('home'),
+            this.presentToast('Connected',1000)});
     }
 
   createAccount() {
@@ -62,7 +63,8 @@ export class LoginPage implements OnInit {
       this.userService.createAccount(userToLog).subscribe(
           value => this.userService.user = value,
           error => {},
-          () => {this.checkIfIsConnected(this.userService.user.id) , console.log(this.userService.user), this.router.navigateByUrl('home')});
+          () => {this.checkIfIsConnected(this.userService.user.id) , console.log(this.userService.user), this.router.navigateByUrl('home'),
+              this.presentToast('Account created, please check your Mail box',2000)});
   }
 
   checkIfIsConnected(userId){
@@ -78,22 +80,23 @@ export class LoginPage implements OnInit {
     }
 
     sendPasswordForget() {
+      let messageToast: string = "";
         console.log('send password');
         let userToGetPassword = new User();
         userToGetPassword.email = this.user.email;
         this.userService.getForgetPassword(userToGetPassword).subscribe(
-            value => {console.log(value)},
+            value => {console.log(value),messageToast = value},
             error => {console.log(error)},
-            () => {}
+            () => {this.presentToast(messageToast,2000),
+                this.isNeedNewPassword = false}
         )
-        this.presentToast();
-        this.isNeedNewPassword = false;
+
     }
 
-    async presentToast() {
+    async presentToast(message: string, duration?: number) {
         const toast = await this.toastController.create({
-            message: 'Check your Mail box.',
-            duration: 2000
+            message: message,
+            duration: duration
         });
         toast.present();
     }

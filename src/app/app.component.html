@@ -8,8 +8,8 @@
     <ion-content>
       <ion-list *ngFor="let pages of navigate">
         <ion-menu-toggle auto-hide="true">
-          <ion-item [routerLink]="pages.url" routerDirection="forward">
-            <ion-icon [name]="pages.icon" slot="start"></ion-icon>
+          <ion-item (click)="pages.title === 'Disconnect'? onDisconnect() : ''" [routerLink]="pages.url" routerDirection="forward" [ngStyle]="{'color':pages.title === 'Disconnect' ? 'red' : 'black' } ">
+            <ion-icon [ngStyle]="{'color':pages.title === 'Disconnect' ? 'red' : 'black'} " [name]="pages.icon" slot="start"></ion-icon>
             {{pages.title}}
           </ion-item>
         </ion-menu-toggle>

@@ -68,8 +68,9 @@ export class FamilyPage implements OnInit {
     }
 
   deleteMember(idMember) {
+    let reset = [];
     const subscription = this.familymembersService.deleteMember(idMember).subscribe(
-        response => {console.log(response)},
+        response => {this.userService.user.familyMembers = reset},
         error => {console.log(error)},
         () => {this.getAllFamilyMembers(), subscription.unsubscribe()}
     );

@@ -9,6 +9,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
+    <ion-item *ngIf="familyMemberfromDb.size >= 0">Click on family member</ion-item>
         <ion-list *ngFor="let family of familyMemberfromDb.familyMembers; let i = index">
             <ion-card [button]="true" (click)="goMask(family.id)">
                 <ion-card-header>

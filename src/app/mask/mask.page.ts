@@ -3,6 +3,8 @@ import {MaskService} from '../services/mask.service';
 import {Mask} from '../Mask';
 import {AlertController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
+import {FamilyMembers} from '../FamilyMembers';
+import {FamilymembersService} from '../services/familymembers.service';
 
 @Component({
   selector: 'app-mask',
@@ -15,12 +17,14 @@ export class MaskPage implements OnInit {
   buttonText: any = " Back";
   buttonIcon: any = "arrow-back";
   idMemberFamily: any = -1;
+  firstNameMember: any = "";
   mask: Mask = new Mask();
   masksOfMember = [];
   isWantCreateMask: any = false;
   createMaskValidator: any;
 
   constructor(private maskService: MaskService,
+              private familymembersService: FamilymembersService,
               private alertCtrl: AlertController,
               private formBuilder: FormBuilder) {
     this.createMaskValidator = this.formBuilder.group({
@@ -30,7 +34,16 @@ export class MaskPage implements OnInit {
 
   ngOnInit() {
     this.idMemberFamily = this.maskService.idMemberFamilyToCreateMask;
+    this.getFirstNameMember();
     this.getMaskOfMember();
+  }
+
+  getFirstNameMember(){
+    this.familymembersService.getFirstName(this.idMemberFamily).subscribe(
+        value => {this.firstNameMember = value},
+        error => {console.log(error)},
+        () => {console.log('complet recup firstname member')}
+    )
   }
 
   wantCreateMask(){
@@ -56,7 +69,7 @@ export class MaskPage implements OnInit {
     const subscription  = this.maskService.findMaskByMember(this.idMemberFamily).subscribe(
         value => {this.masksOfMember = value},
         error => {},
-        () => {subscription.unsubscribe()});
+        () => {console.log(this.masksOfMember),subscription.unsubscribe()});
 
   }
 

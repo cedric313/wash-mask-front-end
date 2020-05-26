@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import {AlertController, Platform, ToastController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from '@angular/router';
@@ -29,10 +29,9 @@ export class AppComponent{
             icon  : "person-circle-outline"
           },
           {
-            title : "Masks",
-            url   : "mask",
-            icon  : "happy-sharp"
-          },
+            title: "Disconnect",
+            icon : "log-out-outline"
+          }
         ]
   }
   constructor(
@@ -40,7 +39,9 @@ export class AppComponent{
       private splashScreen: SplashScreen,
       private statusBar: StatusBar,
       private router: Router,
-      private userService: UserService
+      private userService: UserService,
+      private alertCtrl: AlertController,
+      private toastController: ToastController
   ) {
     this.userPseudo = this.userService.user.email;
     this.sideMenu();
@@ -55,5 +56,62 @@ export class AppComponent{
     });
   }
 
+  onDisconnect(){
+      this.showAlertDeletedMask();
+  }
 
+    async showAlertDeletedMask() {
+        const confirm = await this.alertCtrl.create({
+            header: 'Disconnect',
+            message: 'Are you sure?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Confirm Cancel');
+
+                    }
+                },
+                {
+                    text: 'Okay',
+                    handler: () => {
+                        let user = {
+                            id:"-1",
+                            email: "",
+                            password:"",
+                            pseudo:"",
+                            familyMembers: [
+                                {
+                                    firstName:"",
+                                    masks: [
+                                        {
+                                            name:"",
+                                            numberWash: "",
+                                            maxWashingMask:"",
+                                            isOver:""
+                                        }
+                                    ]
+                                }
+                            ],
+                        };
+                        console.log(this.userService.user);
+                        this.userService.user = user;
+                        console.log(this.userService.user);
+                        this.presentToast('Disconnected');
+                        this.router.navigateByUrl('login');
+                    }
+                }
+            ]
+        });
+        await confirm.present();
+    }
+
+    async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message: message,
+            duration: 2000
+        });
+        toast.present();
+    }
 }
