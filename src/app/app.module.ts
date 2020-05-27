@@ -12,6 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FamilyPage} from './family/family.page';
 import {MaskPage} from './mask/mask.page';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AuthGuardService} from './services/auth-guard.service';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
   providers: [
     StatusBar,
     SplashScreen,
+      AuthGuardService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

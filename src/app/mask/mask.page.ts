@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MaskService} from '../services/mask.service';
 import {Mask} from '../Mask';
-import {AlertController} from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FamilymembersService} from '../services/familymembers.service';
 
@@ -21,11 +21,13 @@ export class MaskPage implements OnInit {
   masksOfMember = [];
   isWantCreateMask: any = false;
   createMaskValidator: any;
+  private isLoading: boolean = false;
 
   constructor(private maskService: MaskService,
               private familymembersService: FamilymembersService,
               private alertCtrl: AlertController,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private loadingController: LoadingController) {
     this.createMaskValidator = this.formBuilder.group({
     name: ['', Validators.required],
       numberWash: ['', Validators.required],
@@ -42,6 +44,7 @@ export class MaskPage implements OnInit {
         value => {this.firstNameMember = value},
         error => {console.log(error)},
         () => {console.log('complet recup firstname member'),
+            this.dismiss(),
             subscription.unsubscribe()}
     )
   }
@@ -52,48 +55,54 @@ export class MaskPage implements OnInit {
 
 
   createMask() {
+    this.present();
     const subscription = this.maskService.createMask(this.idMemberFamily, this.mask).subscribe(
         value => {console.log(value)},
-        error => {
+        error => {this.dismiss(),
           console.log(error.error.message)
         },
         () => {this.getMaskOfMember(),
             this.isWantCreateMask = false,
             this.mask.name = "",
             this.mask.maxWashingMask = null,
+            this.dismiss(),
             subscription.unsubscribe()}
     );
   }
 
   getMaskOfMember(){
+    this.present();
     const subscription  = this.maskService.findMaskByMember(this.idMemberFamily).subscribe(
         value => {this.masksOfMember = value},
-        error => {},
-        () => {console.log(this.masksOfMember),subscription.unsubscribe()});
+        error => {this.dismiss()},
+        () => {this.dismiss(),console.log(this.masksOfMember),subscription.unsubscribe()});
 
   }
 
   addWashToMask(idMask) {
+    this.present();
     const subscription = this.maskService.addWashToMask(idMask).subscribe(
         value => {this.isSubmit = true},
-        error => {},
-        () => {this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
+        error => {this.dismiss()},
+        () => {this.dismiss(),this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
     );
   }
 
   sousWashToMask(idMask) {
+    this.present();
     const subscription = this.maskService.sousWashToMask(idMask).subscribe(
         value => {this.isSubmit = true},
-        error => {},
-        () => {this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
+        error => {this.dismiss()},
+        () => {this.dismiss(),this.getMaskOfMember(), this.isSubmit = false, subscription.unsubscribe()}
     );
   }
 
   deleteMask(idMask) {
+    this.present();
     const subscription = this.maskService.deleteMask(idMask).subscribe(
         response => {console.log(response)},
-        error => {console.log(error)},
-        () => {this.getMaskOfMember(),subscription.unsubscribe()}
+        error => {this.dismiss(),console.log(error)},
+        () => {this.getMaskOfMember(),this.dismiss(),subscription.unsubscribe()}
     );
   }
 
@@ -120,5 +129,24 @@ export class MaskPage implements OnInit {
       ]
     });
     await confirm.present();
+  }
+
+  async present() {
+    this.isLoading = true;
+    return await this.loadingController.create({
+      // duration: 5000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.isLoading) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
+      });
+    });
+  }
+
+  async dismiss() {
+    this.isLoading = false;
+    return await this.loadingController.dismiss().then(() => console.log('dismissed'));
   }
 }

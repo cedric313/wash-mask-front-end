@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
+import {AuthGuardService} from './services/auth-guard.service';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +42,8 @@ export class AppComponent{
       private router: Router,
       private userService: UserService,
       private alertCtrl: AlertController,
-      private toastController: ToastController
+      private toastController: ToastController,
+      private authGuardService: AuthGuardService
   ) {
     this.userPseudo = this.userService.user.email;
     this.sideMenu();
@@ -81,6 +83,7 @@ export class AppComponent{
                             email: "",
                             password:"",
                             pseudo:"",
+                            authError:"true",
                             familyMembers: [
                                 {
                                     firstName:"",
@@ -98,8 +101,9 @@ export class AppComponent{
                         console.log(this.userService.user);
                         this.userService.user = user;
                         console.log(this.userService.user);
+                        this.authGuardService.isAuthenticated = false;
+                        this.router.navigateByUrl('login')
                         this.presentToast('Disconnected');
-                        this.router.navigateByUrl('login');
                     }
                 }
             ]
