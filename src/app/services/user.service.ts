@@ -16,6 +16,7 @@ export class UserService {
     email: "",
     password:"",
     pseudo:"",
+    authError:"",
     familyMembers: [
       {
         firstName:"",

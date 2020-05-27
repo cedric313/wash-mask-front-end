@@ -1,46 +1,65 @@
 <ion-content>
-  <div *ngIf="isAccountExist && !isNeedNewPassword" style="display: flex; align-items: center; align-content: center; justify-content: center;
+    <div *ngIf="isAccountExist && !isNeedNewPassword" style="display: flex; align-items: center; align-content: center; justify-content: center;
    flex-direction: column; margin-top: 50%;--ion-background-color: transparent ">
- <ion-list>
-     <form [formGroup]="signInValidator">
-   <ion-item>
-     <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-     <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="text"></ion-input>
-   </ion-item>
-   <ion-item>
-     <ion-label> <ion-icon name="key-outline"></ion-icon> </ion-label>
-     <ion-input formControlName="password" placeholder="Password" [(ngModel)]="user.password" type="password"></ion-input>
-   </ion-item>
-   <div style="display: flex; align-items: center; align-content: center;flex-direction: column">
-       <ion-button [disabled]="!signInValidator.valid" color="success" shape="round" (click)="signIn()">Sign in</ion-button>
-   </div>
-         <div style="display: flex; align-items: center; align-content: center; flex-direction: column">
-             <a (click)="onForgetPassword()">Forget password?</a>
-             <a (click)="isAccountExist = !isAccountExist">Create Account</a>
-         </div>
-     </form>
- </ion-list>
-  </div>
+        <ion-list>
+            <form [formGroup]="signInValidator">
+                <ion-item>
+                    <ion-label>
+                        <ion-icon name="person"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email"
+                               type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                        <ion-icon name="key-outline"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="password" placeholder="Password" [(ngModel)]="user.password"
+                               type="password"></ion-input>
+                </ion-item>
+                <div style="display: flex; align-items: center; align-content: center;flex-direction: column">
+                    <ion-button [disabled]="!signInValidator.valid" color="success" shape="round" (click)="signIn()">
+                        Sign in
+                    </ion-button>
+                </div>
+                <div style="display: flex; align-items: center; align-content: center; flex-direction: column">
+                    <a (click)="onForgetPassword()">Forget password?</a>
+                    <a (click)="isAccountExist = !isAccountExist">Create Account</a>
+                </div>
+            </form>
+        </ion-list>
+    </div>
     <div *ngIf="!isAccountExist && !isNeedNewPassword" style="display: flex; align-items: center; align-content: center; justify-content: center;
    flex-direction: column; margin-top: 50%;--ion-background-color: transparent ">
         <ion-list>
             <form [formGroup]="createAccountValidator">
-            <ion-item>
-                <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-                <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="text"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label> <ion-icon name="key-outline"></ion-icon> </ion-label>
-                <ion-input formControlName="password" placeholder="Password" [(ngModel)]="user.password" type="password"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label> <ion-icon name="body-outline"></ion-icon> </ion-label>
-                <ion-input formControlName="pseudo" placeholder="Pseudo" [(ngModel)]="user.pseudo" type="text"></ion-input>
-            </ion-item>
-            <div style="display: flex; align-items: center; align-content: center; justify-content: center">
-                <ion-button [disabled]="!createAccountValidator.valid" color="success" shape="round" (click)="createAccount()">Create Account</ion-button>
-                <a (click)="isAccountExist = !isAccountExist">Sign In</a>
-            </div>
+                <ion-item>
+                    <ion-label>
+                        <ion-icon name="person"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email"
+                               type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                        <ion-icon name="key-outline"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="password" placeholder="Password" [(ngModel)]="user.password"
+                               type="password"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                        <ion-icon name="body-outline"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="pseudo" placeholder="Pseudo" [(ngModel)]="user.pseudo"
+                               type="text"></ion-input>
+                </ion-item>
+                <div style="display: flex; align-items: center; align-content: center; justify-content: center">
+                    <ion-button [disabled]="!createAccountValidator.valid" color="success" shape="round"
+                                (click)="createAccount()">Create Account
+                    </ion-button>
+                    <a (click)="isAccountExist = !isAccountExist">Sign In</a>
+                </div>
             </form>
         </ion-list>
     </div>
@@ -49,11 +68,16 @@
         <ion-list>
             <form [formGroup]="forgetPasswordValidator">
                 <ion-item>
-                    <ion-label> <ion-icon name="person"></ion-icon> </ion-label>
-                    <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="text"></ion-input>
+                    <ion-label>
+                        <ion-icon name="person"></ion-icon>
+                    </ion-label>
+                    <ion-input formControlName="email" placeholder="Email" [(ngModel)]="user.email"
+                               type="text"></ion-input>
                 </ion-item>
                 <form>
-                    <ion-button [disabled]="!forgetPasswordValidator.valid" color="success" shape="round" (click)="sendPasswordForget()">Send password</ion-button>
+                    <ion-button [disabled]="!forgetPasswordValidator.valid" color="success" shape="round"
+                                (click)="sendPasswordForget()">Send password
+                    </ion-button>
                 </form>
             </form>
         </ion-list>

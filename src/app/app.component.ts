@@ -83,6 +83,7 @@ export class AppComponent{
                             email: "",
                             password:"",
                             pseudo:"",
+                            authError:"true",
                             familyMembers: [
                                 {
                                     firstName:"",
