@@ -84,6 +84,7 @@ export class AppComponent{
                             password:"",
                             pseudo:"",
                             authError:"true",
+                            isActive:"",
                             familyMembers: [
                                 {
                                     firstName:"",

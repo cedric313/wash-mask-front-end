@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
   urlBack = "http://localhost:8082/";
-  urlToCreateAccount = "user";
+  urlToCreateAccount = "create/user";
   urlToSigin = "user/connect";
   urlToGetPassword = "user/forgetPassword";
   user = {
@@ -17,6 +17,7 @@ export class UserService {
     password:"",
     pseudo:"",
     authError:"",
+    isActive:"",
     familyMembers: [
       {
         firstName:"",
