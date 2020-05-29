@@ -10,7 +10,7 @@ export class UserService {
   urlBack = "http://localhost:8082/";
   urlToCreateAccount = "create/user";
   urlToSigin = "user/connect";
-  urlToGetPassword = "user/forgetPassword";
+  urlToGetPassword = "api/auth/forgetPassword";
   user = {
     id:"-1",
     email: "",
