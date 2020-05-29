@@ -18,6 +18,7 @@ export class UserService {
     pseudo:"",
     authError:"",
     isActive:"",
+    username:"",
     familyMembers: [
       {
         firstName:"",
