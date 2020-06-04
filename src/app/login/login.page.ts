@@ -5,6 +5,8 @@ import {UserService} from '../services/user.service';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AuthGuardService} from '../services/auth-guard.service';
+import { AuthService } from '../services/auth.service';
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -20,31 +22,101 @@ export class LoginPage implements OnInit {
     forgetPasswordValidator: any;
     private isLoading: boolean = false;
 
+    form: any = {};
+    isLoggedIn = false;
+    isLoginFailed = false;
+    errorMessage = '';
+    roles: string[] = [];
+
+    isSuccessful = false;
+    isSignUpFailed = false;
 
     constructor(private router: Router,
                 private userService: UserService,
                 private formBuilder: FormBuilder,
                 private toastController: ToastController,
                 private authGuardService: AuthGuardService,
-                public loadingController: LoadingController) {
+                public loadingController: LoadingController,
+                private authService: AuthService, private tokenStorage: TokenStorageService) {
 
         this.signInValidator = this.formBuilder.group({
             email: ['', Validators.required],
             password: ['', Validators.required],
+            username: ['', Validators.required],
         }),
             this.createAccountValidator = this.formBuilder.group({
                 email: ['', Validators.required],
                 password: ['', Validators.required],
-                pseudo: ['', Validators.required],
+                username: ['', Validators.required],
             }),
             this.forgetPasswordValidator = this.formBuilder.group({
                 email: ['', Validators.required],
+                username: ['', Validators.required],
             })
     }
 
     ngOnInit() {
+        if (this.tokenStorage.getToken()) {
+            this.isLoggedIn = true;
+            this.roles = this.tokenStorage.getUser().roles;
+        }
 
     }
+
+    onSubmitCreateAccount() {
+        this.present();
+        console.log(this.user);
+        const subscription = this.authService.register(this.user).subscribe(
+            data => {
+                console.log(data);
+                this.isSuccessful = true;
+                this.isSignUpFailed = false;
+            },
+            err => {
+                this.presentToast(err.error.message, 2000)
+                this.errorMessage = err.error.message;
+                this.isSignUpFailed = true;
+                this.dismiss();
+                subscription.unsubscribe();
+            },
+            () => {
+                this.presentToast('Account created, please check your Mail box', 2000),
+                    this.dismiss();
+                this.isAccountExist = !this.isAccountExist;
+                // this.onSubmitSignIn();
+                subscription.unsubscribe();
+            }
+        );
+    }
+
+    onSubmitSignIn() {
+        this.present();
+        console.log(this.user);
+       const subscription = this.authService.login(this.user).subscribe(
+            data => {
+                this.tokenStorage.saveToken(data.accessToken);
+                this.tokenStorage.saveUser(data);
+
+                this.isLoginFailed = false;
+                this.isLoggedIn = true;
+                this.roles = this.tokenStorage.getUser().roles;
+                this.signIn();
+            },
+            err => {
+                console.log(err);
+                this.presentToast(err.error.message, 2000);
+                this.errorMessage = err.error.message;
+                this.isLoginFailed = true;
+                this.dismiss();
+                subscription.unsubscribe()
+            },
+           () => {
+                this.dismiss();
+               subscription.unsubscribe();
+           }
+        );
+    }
+
 
     signIn() {
         let userToSignIn: User = new User();
@@ -73,7 +145,6 @@ export class LoginPage implements OnInit {
         userToLog.email = this.user.email;
         userToLog.password = this.user.password;
         userToLog.pseudo = this.user.pseudo;
-        this.present();
         const subscription = this.userService.createAccount(userToLog).subscribe(
             value => {this.userService.user = value,
             console.log(value)},
@@ -114,6 +185,8 @@ export class LoginPage implements OnInit {
         console.log('send password');
         let userToGetPassword = new User();
         userToGetPassword.email = this.user.email;
+        userToGetPassword.username = this.user.username;
+        userToGetPassword.password = this.user.username;
         this.present();
         const subscription = this.userService.getForgetPassword(userToGetPassword).subscribe(
             value => {
