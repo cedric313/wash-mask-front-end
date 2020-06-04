@@ -7,10 +7,10 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  urlBack = "https://mask-wash-back-end.herokuapp.com/";
+  urlBack = "http://localhost:8082/";
   urlToCreateAccount = "create/user";
   urlToSigin = "user/connect";
-  urlToGetPassword = "api/auth/forgetPassword";
+  urlToGetPassword = "user/forgetPassword";
   user = {
     id:"-1",
     email: "",
@@ -18,7 +18,6 @@ export class UserService {
     pseudo:"",
     authError:"",
     isActive:"",
-    username:"",
     familyMembers: [
       {
         firstName:"",
