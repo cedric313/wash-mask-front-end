@@ -1,59 +1,65 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../User';
 import {Observable} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserService {
-  urlBack = "http://localhost:8082/";
-  urlToCreateAccount = "create/user";
-  urlToSigin = "user/connect";
-  urlToGetPassword = "user/forgetPassword";
-  user = {
-    id:"-1",
-    email: "",
-    password:"",
-    pseudo:"",
-    authError:"",
-    isActive:"",
-    familyMembers: [
-      {
-        firstName:"",
-        masks: [
-          {
-            name:"",
-            numberWash: "",
-            maxWashingMask:"",
-            isOver:""
-          }
-        ]
-      }
-    ],
-  };
 
-  constructor(private httpClient: HttpClient) { }
+    urlBack = 'http://localhost:8082/';
+    urlToCreateAccount = 'create/user';
+    urlToSigin = 'user/connect';
+    urlToGetPassword = '/api/auth/forgetPassword';
+    user = {
+        id: '-1',
+        email: '',
+        password: '',
+        pseudo: '',
+        authError: '',
+        isActive: '',
+        username: '',
+        role:'',
+        familyMembers: [
+            {
+                firstName: '',
+                masks: [
+                    {
+                        name: '',
+                        numberWash: '',
+                        maxWashingMask: '',
+                        isOver: ''
+                    }
+                ]
+            }
+        ],
+    };
 
-  createAccount(user: User): Observable<any>{
-    let headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-    });
-    return this.httpClient.post(this.urlBack + this.urlToCreateAccount,user, {headers});
-  }
+    constructor(private httpClient: HttpClient) {
+    }
 
-  signIn(user: User): Observable<any>{
-    let headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-    });
-    return this.httpClient.post(this.urlBack + this.urlToSigin,user,{headers});
-  }
+    createAccount(user: User): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        return this.httpClient.post(this.urlBack + this.urlToCreateAccount, user, {headers});
+    }
 
-  getForgetPassword(user: User): Observable<any>{
-    let headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-    });
-    return this.httpClient.post(this.urlBack + this.urlToGetPassword,user,{headers,
-    responseType:'text'});
-  }
+    signIn(user: User): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        return this.httpClient.post(this.urlBack + this.urlToSigin, user, {headers});
+    }
+
+    getForgetPassword(user: User): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        return this.httpClient.post(this.urlBack + this.urlToGetPassword, user, {
+            headers,
+            responseType: 'text'
+        });
+    }
 }

@@ -13,6 +13,7 @@ import {FamilyPage} from './family/family.page';
 import {MaskPage} from './mask/mask.page';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthGuardService} from './services/auth-guard.service';
+import {authInterceptorProviders} from './_helper/auth.interceptor';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {AuthGuardService} from './services/auth-guard.service';
     StatusBar,
     SplashScreen,
       AuthGuardService,
+      authInterceptorProviders,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

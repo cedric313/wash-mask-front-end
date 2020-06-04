@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {AlertController, Platform, ToastController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -6,15 +6,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
 import {AuthGuardService} from './services/auth-guard.service';
+import {TokenStorageService} from './services/token-storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
   navigate : any;
   userPseudo: any;
+
+    private roles: string[];
+    isLoggedIn = false;
+    showAdminBoard = false;
+    showModeratorBoard = false;
+    username: string;
 
   sideMenu() {
     this.navigate =
@@ -36,6 +43,7 @@ export class AppComponent{
         ]
   }
   constructor(
+      private tokenStorageService: TokenStorageService,
       private platform: Platform,
       private splashScreen: SplashScreen,
       private statusBar: StatusBar,
@@ -50,7 +58,21 @@ export class AppComponent{
     this.initializeApp();
   }
 
-  initializeApp() {
+  ngOnInit() {
+      this.isLoggedIn = !!this.tokenStorageService.getToken();
+
+      if (this.isLoggedIn) {
+          const user = this.tokenStorageService.getUser();
+          this.roles = user.roles;
+
+          this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+          this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
+
+          this.username = user.username;
+      }
+  }
+
+    initializeApp() {
     this.platform.ready().then(() => {
       this.router.navigateByUrl('login');
       this.statusBar.styleDefault();
@@ -61,6 +83,10 @@ export class AppComponent{
   onDisconnect(){
       this.showAlertDeletedMask();
   }
+
+    logout() {
+        this.tokenStorageService.signOut();
+    }
 
     async showAlertDeletedMask() {
         const confirm = await this.alertCtrl.create({
@@ -85,6 +111,8 @@ export class AppComponent{
                             pseudo:"",
                             authError:"true",
                             isActive:"",
+                            username:"",
+                            role:"",
                             familyMembers: [
                                 {
                                     firstName:"",
@@ -104,6 +132,7 @@ export class AppComponent{
                         console.log(this.userService.user);
                         this.authGuardService.isAuthenticated = false;
                         this.router.navigateByUrl('login')
+                        this.logout();
                         this.presentToast('Disconnected');
                     }
                 }
@@ -120,3 +149,5 @@ export class AppComponent{
         toast.present();
     }
 }
+
+
