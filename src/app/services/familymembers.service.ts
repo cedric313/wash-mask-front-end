@@ -8,7 +8,8 @@ import {UserService} from './user.service';
   providedIn: 'root'
 })
 export class FamilymembersService {
-  urlBack = "http://localhost:8082/";
+  //urlBack = "http://localhost:8082/";
+  urlBack = 'https://mask-wash-back-end.herokuapp.com/';
 
   member = {
     id:"-1",
